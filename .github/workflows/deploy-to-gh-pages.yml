@@ -1,0 +1,31 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main  # Setzt den Trigger auf Push-Operationen zum main-Branch
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest  # Läuft auf einem Ubuntu-Runner
+
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2  # Holt den Code
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14'  # Setzt die Node.js-Version
+
+      - name: Install Dependencies
+        run: npm ci  # Installiert die Abhängigkeiten
+
+      - name: Build Project
+        run: npm run build -- --prod --base-href="/"  # Baut das Angular-Projekt
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@4.1.0
+        with:
+          branch: gh-pages  # Der Zielbranch für das Deployment
+          folder: dist/chatgpt-to-notion/browser # Der Ordner, in den der Build platziert wird (angepasst an deinen Projektnamen)
