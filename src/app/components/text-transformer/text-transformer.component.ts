@@ -27,8 +27,8 @@ export class TextTransformerComponent {
   }
 
   transformAndCopyText(inputText: string): void {
-    debugger
-    const transformedText = inputText.replace(/\\\(/g, '').replace(/\\\)/g, '');
+    let transformedText = this.replaceRoundBrackets(inputText);
+    transformedText = this.replaceSquareBrackets(transformedText);
     this.rightText.setValue(transformedText);
     this.copyTextToClipboard(transformedText);
   }
@@ -55,6 +55,14 @@ export class TextTransformerComponent {
     if(text) {
       this.copyTextToClipboard(text);
     }
+  }
 
+   replaceSquareBrackets(text: string): string {
+     return text.replace(/\\\[/g, '').replace(/\\\]/g, '');
+  }
+
+
+   replaceRoundBrackets(text: string): string {
+      return text.replace(/\\\(/g, '').replace(/\\\)/g, '');
   }
 }
